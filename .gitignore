@@ -1,0 +1,13 @@
+# Environment variables — NEVER commitear credenciales
+.env
+.env.local
+.env.production
+
+# Vercel
+.vercel
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/

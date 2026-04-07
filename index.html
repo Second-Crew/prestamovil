@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prestamóvil — Empeña tu Vehículo en Los Mochis, Sinaloa | Efectivo Hoy Mismo</title>
+  <meta name="description" content="Empeña tu auto, camioneta, moto o maquinaria en Los Mochis, Sinaloa. Sin revisión de Buró, aprobación inmediata y tasa justa. ¡Obtén efectivo hoy mismo con Prestamóvil!">
+  <meta name="keywords" content="empeño de autos Los Mochis, empeño vehicular Sinaloa, préstamo con garantía vehicular, empeñar auto, empeñar moto, empeño camioneta, casa de empeño Los Mochis">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://prestamovil.mx/">
+  <meta property="og:title" content="Prestamóvil — Empeña tu Vehículo en Los Mochis">
+  <meta property="og:description" content="Obtén efectivo hoy mismo empeñando tu vehículo. Sin Buró, aprobación inmediata, tasa justa.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://prestamovil.mx/">
+  <meta property="og:locale" content="es_MX">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Prestamóvil",
+    "description": "Empeños vehiculares en Los Mochis, Sinaloa. Autos, camionetas, motos y maquinaria pesada.",
+    "url": "https://prestamovil.mx",
+    "telephone": "+526681234567",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Los Mochis",
+      "addressRegion": "Sinaloa",
+      "addressCountry": "MX"
+    },
+    "openingHours": ["Mo-Fr 09:00-18:00", "Sa 09:00-14:00"],
+    "priceRange": "$$",
+    "areaServed": {
+      "@type": "City",
+      "name": "Los Mochis"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- ═══ NAV ═══ -->
+  <nav class="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Presta<span>móvil</span></a>
+      <button class="nav__toggle" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav__links">
+        <a href="index.html">Inicio</a>
+        <a href="empeno.html">Empeño</a>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="https://wa.me/526681234567" class="nav__cta" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </nav>
+  <div class="nav-spacer"></div>
+
+  <!-- ═══ HERO + CALCULATOR ═══ -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__content">
+        <span class="hero__badge animate-on-scroll">🚗 Empeño Vehicular en Los Mochis</span>
+        <h1 class="animate-on-scroll">¿Necesitas efectivo <span class="highlight">hoy mismo</span>?<br>Tu vehículo te da la solución.</h1>
+        <p class="hero__subtitle animate-on-scroll">Empeña tu auto, camioneta, moto o maquinaria pesada. Sin revisión de Buró, aprobación inmediata y la mejor tasa de interés en Sinaloa.</p>
+        <div class="hero__trust animate-on-scroll">
+          <span class="hero__trust-item">✅ Sin Buró de Crédito</span>
+          <span class="hero__trust-item">⚡ Aprobación en menos de 1 hora</span>
+          <span class="hero__trust-item">🔒 Zona segura y monitoreada</span>
+        </div>
+      </div>
+
+      <!-- Calculator Card -->
+      <div class="calculator animate-on-scroll">
+        <h2 class="calculator__title">¿Cuánto te prestamos?</h2>
+        <p class="calculator__subtitle">Calcula el valor estimado de tu vehículo</p>
+        <form class="calculator__form" autocomplete="off">
+
+          <!-- Paso 1: Tipo → determina si es auto (Clase 0) o moto (Clase 2) -->
+          <div class="form-group">
+            <label for="calc-type">Tipo de vehículo</label>
+            <select id="calc-type">
+              <option value="">Selecciona tipo</option>
+              <option value="auto">Automóvil</option>
+              <option value="camioneta">Camioneta / Pick-up</option>
+              <option value="motocicleta">Motocicleta</option>
+              <option value="maquinaria">Maquinaria Pesada</option>
+            </select>
+          </div>
+
+          <!-- Paso 2: Año — se llena desde la API al elegir tipo -->
+          <div class="form-group">
+            <label for="calc-year">Año</label>
+            <select id="calc-year" disabled>
+              <option value="">Selecciona año</option>
+            </select>
+          </div>
+
+          <!-- Paso 3: Marca — se llena desde la API al elegir año -->
+          <div class="form-group">
+            <label for="calc-brand">Marca</label>
+            <select id="calc-brand" disabled>
+              <option value="">Selecciona marca</option>
+            </select>
+          </div>
+
+          <!-- Paso 4: Modelo — se llena desde la API al elegir marca -->
+          <div class="form-group">
+            <label for="calc-model">Modelo</label>
+            <select id="calc-model" disabled>
+              <option value="">Selecciona modelo</option>
+            </select>
+          </div>
+
+          <!-- Paso 5: Versión/Trim — solo autos; se llena desde la API al elegir modelo -->
+          <div class="form-group" id="version-group" style="display:none;">
+            <label for="calc-version">Versión / Trim</label>
+            <select id="calc-version" disabled>
+              <option value="">Selecciona versión</option>
+            </select>
+          </div>
+
+          <!-- Mensaje especial para maquinaria pesada (sin API Libro Azul) -->
+          <div id="calc-maquinaria-msg" style="display:none; padding:1rem 1.25rem; background:#f0f4ff; border-radius:10px; text-align:center; margin-bottom:0.5rem;">
+            <p style="margin:0 0 0.25rem; color:#1e3a5f; font-weight:700;">🚜 Maquinaria Pesada</p>
+            <p style="margin:0 0 1rem; color:#4a5568; font-size:0.88rem; line-height:1.4;">Valuamos retroexcavadoras, tractores, minicargadores y más.<br>Contáctanos para una cotización personalizada y sin costo.</p>
+            <a href="https://wa.me/526681234567?text=%C2%A1Hola%20Prestam%C3%B3vil!%20Me%20interesa%20empe%C3%B1ar%20maquinaria%20pesada.%20%C2%BFPueden%20hacer%20una%20valuaci%C3%B3n%3F"
+               class="btn btn--whatsapp" target="_blank" rel="noopener"
+               style="display:inline-block;">💬 Contactar por WhatsApp</a>
+          </div>
+
+          <button type="button" id="calc-btn" class="btn btn--primary btn--full">Calcular valor</button>
+        </form>
+
+        <div class="calculator__result">
+          <p class="calculator__result-label">Monto estimado de préstamo:</p>
+          <p class="calculator__result-amount"></p>
+          <p class="calculator__result-detail"></p>
+          <a href="#" class="calculator__result-cta btn btn--whatsapp" target="_blank" rel="noopener">💬 Agendar Valuación por WhatsApp</a>
+        </div>
+        <p class="calculator__disclaimer">*Valor estimado. El monto final se determina en la valuación presencial.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 3-STEP PROCESS ═══ -->
+  <section class="section" id="como-funciona">
+    <div class="container">
+      <div class="section__header text-center animate-on-scroll">
+        <h2>Empeña tu vehículo en <span class="text-gold">3 simples pasos</span></h2>
+        <p>Un proceso rápido, transparente y sin complicaciones.</p>
+      </div>
+      <div class="grid grid--3">
+        <div class="card card--step animate-on-scroll">
+          <div class="step-number">1</div>
+          <div class="card__icon">📋</div>
+          <h3 class="card__title">Valuación Gratuita</h3>
+          <p class="card__text">Trae tu unidad a nuestras instalaciones o mándanos fotos por WhatsApp. Evaluamos tu vehículo sin costo y sin compromiso.</p>
+        </div>
+        <div class="card card--step animate-on-scroll">
+          <div class="step-number">2</div>
+          <div class="card__icon">✅</div>
+          <h3 class="card__title">Aprobación Inmediata</h3>
+          <p class="card__text">Te ofrecemos el máximo posible por tu vehículo. Sin revisión de Buró de Crédito. Firma y recibe tu efectivo el mismo día.</p>
+        </div>
+        <div class="card card--step animate-on-scroll">
+          <div class="step-number">3</div>
+          <div class="card__icon">🔑</div>
+          <h3 class="card__title">Liquida y Recupera</h3>
+          <p class="card__text">Realiza pagos mensuales cómodos. Al liquidar tu préstamo, te devolvemos tu unidad en las mismas condiciones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BENEFITS ═══ -->
+  <section class="section section--alt" id="beneficios">
+    <div class="container">
+      <div class="section__header text-center animate-on-scroll">
+        <h2>¿Por qué elegir <span class="text-gold">Prestamóvil</span>?</h2>
+        <p>Somos la opción #1 en empeño vehicular en Los Mochis.</p>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit-item animate-on-scroll">
+          <div class="benefit-item__icon">🚫</div>
+          <div class="benefit-item__content">
+            <h4>Sin Revisión de Buró</h4>
+            <p>No importa tu historial crediticio. Tu vehículo es tu garantía, no tu score. Aprobamos préstamos sin consultar Buró de Crédito.</p>
+          </div>
+        </div>
+        <div class="benefit-item animate-on-scroll">
+          <div class="benefit-item__icon">🤝</div>
+          <div class="benefit-item__content">
+            <h4>Trato Personalizado</h4>
+            <p>Somos de Los Mochis y entendemos tus necesidades. Aquí no eres un número, te atendemos como vecinos y amigos.</p>
+          </div>
+        </div>
+        <div class="benefit-item animate-on-scroll">
+          <div class="benefit-item__icon">💰</div>
+          <div class="benefit-item__content">
+            <h4>Tasa de Interés Justa</h4>
+            <p>Ofrecemos tasas competitivas y transparentes. Sin letras chiquitas, sin cargos ocultos, sin sorpresas.</p>
+          </div>
+        </div>
+        <div class="benefit-item animate-on-scroll">
+          <div class="benefit-item__icon">🔒</div>
+          <div class="benefit-item__content">
+            <h4>Seguridad Garantizada</h4>
+            <p>Tu vehículo se resguarda en zona segura y monitoreada 24/7. Contamos con seguro contra robo y daños.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ VEHICLE TYPES ═══ -->
+  <section class="section" id="vehiculos">
+    <div class="container">
+      <div class="section__header text-center animate-on-scroll">
+        <h2>Aceptamos <span class="text-gold">todo tipo</span> de vehículos</h2>
+        <p>Desde autos compactos hasta maquinaria pesada.</p>
+      </div>
+      <div class="grid grid--4">
+        <div class="card animate-on-scroll">
+          <div class="card__icon">🚗</div>
+          <h3 class="card__title">Automóviles</h3>
+          <p class="card__text">Sedanes, hatchbacks, SUVs. Todas las marcas: Nissan, Chevrolet, VW, Toyota, Honda, BMW y más.</p>
+        </div>
+        <div class="card animate-on-scroll">
+          <div class="card__icon">🛻</div>
+          <h3 class="card__title">Camionetas / Pick-ups</h3>
+          <p class="card__text">Silverado, NP300, Hilux, Ranger, RAM. Las pick-ups más populares de Sinaloa.</p>
+        </div>
+        <div class="card animate-on-scroll">
+          <div class="card__icon">🏍️</div>
+          <h3 class="card__title">Motocicletas</h3>
+          <p class="card__text">Honda, Yamaha, Kawasaki, Italika, Bajaj, Suzuki. Desde motos de trabajo hasta deportivas.</p>
+        </div>
+        <div class="card animate-on-scroll">
+          <div class="card__icon">🚜</div>
+          <h3 class="card__title">Maquinaria Pesada</h3>
+          <p class="card__text">Retroexcavadoras, tractores, minicargadores. Caterpillar, John Deere, Case, Komatsu.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ TESTIMONIAL ═══ -->
+  <section class="section section--navy">
+    <div class="container text-center">
+      <div class="testimonial animate-on-scroll">
+        <p class="testimonial__text">"Necesitaba pagar una emergencia médica y en Prestamovil me atendieron en menos de 1 hora. El proceso fue súper transparente."</p>
+        <p class="testimonial__author">Juan P.</p>
+        <p class="testimonial__role">Cliente Satisfecho — Los Mochis, Sinaloa</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ VEHICLES FOR SALE ═══ -->
+  <section class="section" id="vehiculos-venta">
+    <div class="container">
+      <div class="section__header text-center animate-on-scroll">
+        <h2>Vehículos en <span class="text-gold">venta</span></h2>
+        <p>Unidades disponibles a precios increíbles. ¡Aprovecha!</p>
+      </div>
+      <div class="grid grid--3">
+        <div class="vehicle-card animate-on-scroll">
+          <div class="vehicle-card__img" style="background:#e2e8f0;display:flex;align-items:center;justify-content:center;min-height:200px;border-radius:8px 8px 0 0;">
+            <span style="font-size:3rem;">🛻</span>
+          </div>
+          <div class="vehicle-card__body">
+            <h3 class="vehicle-card__name">Chevrolet Silverado 2017</h3>
+            <p class="vehicle-card__price">$250,000 MXN</p>
+            <p class="vehicle-card__details">Pick-up en excelentes condiciones. Motor V8, aire acondicionado, transmisión automática.</p>
+            <a href="https://wa.me/526681234567?text=%C2%A1Hola!%20Me%20interesa%20la%20Silverado%202017." class="btn btn--primary" target="_blank" rel="noopener">Más información</a>
+          </div>
+        </div>
+        <div class="vehicle-card animate-on-scroll">
+          <div class="vehicle-card__img" style="background:#e2e8f0;display:flex;align-items:center;justify-content:center;min-height:200px;border-radius:8px 8px 0 0;">
+            <span style="font-size:3rem;">🚗</span>
+          </div>
+          <div class="vehicle-card__body">
+            <h3 class="vehicle-card__name">Nissan Sentra 2012</h3>
+            <p class="vehicle-card__price">$50,000 MXN</p>
+            <p class="vehicle-card__details">Sedán económico ideal para el día a día. Aire acondicionado, dirección hidráulica.</p>
+            <a href="https://wa.me/526681234567?text=%C2%A1Hola!%20Me%20interesa%20el%20Sentra%202012." class="btn btn--primary" target="_blank" rel="noopener">Más información</a>
+          </div>
+        </div>
+        <div class="vehicle-card animate-on-scroll">
+          <div class="vehicle-card__img" style="background:#e2e8f0;display:flex;align-items:center;justify-content:center;min-height:200px;border-radius:8px 8px 0 0;">
+            <span style="font-size:3rem;">🛻</span>
+          </div>
+          <div class="vehicle-card__body">
+            <h3 class="vehicle-card__name">Chevrolet Silverado 2010</h3>
+            <p class="vehicle-card__price">$80,000 MXN</p>
+            <p class="vehicle-card__details">Pick-up de trabajo confiable. Motor V6, cabina regular, lista para el campo.</p>
+            <a href="https://wa.me/526681234567?text=%C2%A1Hola!%20Me%20interesa%20la%20Silverado%202010." class="btn btn--primary" target="_blank" rel="noopener">Más información</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CTA BANNER ═══ -->
+  <section class="cta-banner">
+    <div class="container text-center">
+      <h2 class="animate-on-scroll">¿Listo para obtener efectivo <span class="text-gold">hoy mismo</span>?</h2>
+      <p class="animate-on-scroll">Contáctanos por WhatsApp o visítanos en Los Mochis. Valuación gratuita y sin compromiso.</p>
+      <div class="animate-on-scroll" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1.5rem;">
+        <a href="https://wa.me/526681234567?text=%C2%A1Hola!%20Quiero%20empe%C3%B1ar%20mi%20veh%C3%ADculo." class="btn btn--whatsapp btn--lg" target="_blank" rel="noopener">💬 WhatsApp Ahora</a>
+        <a href="contacto.html" class="btn btn--secondary btn--lg">📍 Cómo Llegar</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <a href="index.html" class="nav__logo">Presta<span>móvil</span></a>
+        <p>Tu vehículo vale, nosotros lo respaldamos. Empeños vehiculares en Los Mochis, Sinaloa.</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <div class="footer__links">
+          <a href="index.html">Inicio</a>
+          <a href="empeno.html">Empeño</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="faq.html">FAQ</a>
+          <a href="contacto.html">Contacto</a>
+        </div>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <div class="footer__links">
+          <a href="tel:+526681234567">📞 (668) 123-4567</a>
+          <a href="mailto:info@prestamovil.mx">✉️ info@prestamovil.mx</a>
+          <a href="https://wa.me/526681234567" target="_blank" rel="noopener">💬 WhatsApp</a>
+        </div>
+      </div>
+      <div>
+        <h4>Horario</h4>
+        <div class="footer__links">
+          <span>Lunes a Viernes: 9:00 – 18:00</span>
+          <span>Sábados: 9:00 – 14:00</span>
+          <span>📍 Los Mochis, Sinaloa</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>&copy; 2026 Prestamóvil. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- ═══ WHATSAPP FLOAT ═══ -->
+  <a href="https://wa.me/526681234567?text=%C2%A1Hola!%20Me%20interesa%20empe%C3%B1ar%20mi%20veh%C3%ADculo." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat por WhatsApp">
+    <svg viewBox="0 0 32 32" width="28" height="28" fill="#fff"><path d="M16.004 0h-.008C7.174 0 0 7.176 0 16.004c0 3.502 1.128 6.744 3.046 9.378L1.054 31.29l6.118-1.958A15.92 15.92 0 0016.004 32C24.826 32 32 24.826 32 16.004S24.826 0 16.004 0zm9.336 22.594c-.39 1.1-1.932 2.014-3.164 2.28-.846.18-1.95.322-5.666-1.218-4.756-1.968-7.82-6.798-8.058-7.114-.228-.316-1.918-2.554-1.918-4.872s1.214-3.456 1.644-3.928c.43-.472.94-.59 1.254-.59.314 0 .628.004.902.016.29.014.678-.11 1.06.808.39.94 1.332 3.242 1.45 3.478.118.236.196.51.04.826-.158.316-.236.512-.472.786-.236.276-.496.616-.708.826-.236.236-.482.49-.208.962.276.472 1.226 2.022 2.632 3.274 1.81 1.612 3.336 2.112 3.808 2.348.472.236.748.196 1.022-.118.276-.314 1.178-1.374 1.492-1.846.314-.472.628-.392 1.06-.236.432.158 2.738 1.292 3.208 1.528.472.236.786.354.904.55.118.196.118 1.138-.272 2.24z"/></svg>
+    <span class="whatsapp-float__text">¡Chatea con nosotros!</span>
+  </a>
+
+  <!-- ═══ SCRIPTS ═══ -->
+  <script src="js/calculator.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
