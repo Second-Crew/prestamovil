@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Prestamóvil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* Widget-only overrides: sin nav, sin hero, fondo transparente */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: var(--font-body, 'Inter', sans-serif);
+    }
+
+    /* El card de la calculadora ocupa todo el ancho disponible */
+    .calculator {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    }
+
+    /* Notifica al padre del iframe cuando cambia el tamaño */
+    body { overflow: hidden; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ CALCULADORA (widget standalone) ═══ -->
+  <div class="calculator">
+    <h2 class="calculator__title">¿Cuánto te prestamos?</h2>
+    <p class="calculator__subtitle">Calcula el valor estimado de tu vehículo</p>
+
+    <form class="calculator__form" autocomplete="off">
+
+      <div class="form-group">
+        <label for="calc-type">Tipo de vehículo</label>
+        <select id="calc-type">
+          <option value="">Selecciona tipo</option>
+          <option value="auto">Automóvil</option>
+          <option value="camioneta">Camioneta / Pick-up</option>
+          <option value="motocicleta">Motocicleta</option>
+          <option value="maquinaria">Maquinaria Pesada</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="calc-year">Año</label>
+        <select id="calc-year" disabled>
+          <option value="">Selecciona año</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="calc-brand">Marca</label>
+        <select id="calc-brand" disabled>
+          <option value="">Selecciona marca</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="calc-model">Modelo</label>
+        <select id="calc-model" disabled>
+          <option value="">Selecciona modelo</option>
+        </select>
+      </div>
+
+      <div class="form-group" id="version-group" style="display:none;">
+        <label for="calc-version">Versión / Trim</label>
+        <select id="calc-version" disabled>
+          <option value="">Selecciona versión</option>
+        </select>
+      </div>
+
+      <!-- Maquinaria pesada: sin API Libro Azul -->
+      <div id="calc-maquinaria-msg" style="display:none; padding:1rem 1.25rem; background:#f0f4ff; border-radius:10px; text-align:center; margin-bottom:0.5rem;">
+        <p style="margin:0 0 0.25rem; color:#1e3a5f; font-weight:700;">🚜 Maquinaria Pesada</p>
+        <p style="margin:0 0 1rem; color:#4a5568; font-size:0.88rem; line-height:1.4;">Valuamos retroexcavadoras, tractores, minicargadores y más.<br>Contáctanos para una cotización personalizada y sin costo.</p>
+        <a href="https://wa.me/526681234567?text=%C2%A1Hola%20Prestam%C3%B3vil!%20Me%20interesa%20empe%C3%B1ar%20maquinaria%20pesada.%20%C2%BFPueden%20hacer%20una%20valuaci%C3%B3n%3F"
+           class="btn btn--whatsapp" target="_blank" rel="noopener"
+           style="display:inline-block;">💬 Contactar por WhatsApp</a>
+      </div>
+
+      <button type="button" id="calc-btn" class="btn btn--primary btn--full">Calcular valor</button>
+    </form>
+
+    <div class="calculator__result">
+      <p class="calculator__result-label">Monto estimado de préstamo:</p>
+      <p class="calculator__result-amount"></p>
+      <p class="calculator__result-detail"></p>
+      <a href="#" class="calculator__result-cta btn btn--whatsapp" target="_blank" rel="noopener">💬 Agendar Valuación por WhatsApp</a>
+    </div>
+    <p class="calculator__disclaimer">*Valor estimado. El monto final se determina en la valuación presencial.</p>
+  </div>
+
+  <script src="js/calculator.js"></script>
+
+  <!-- Avisa al padre del iframe cada vez que el contenido crece/achica -->
+  <script>
+    (function () {
+      function notifyHeight() {
+        var h = document.body.scrollHeight;
+        window.parent.postMessage({ type: 'calcHeight', height: h }, '*');
+      }
+      // Al cargar y cada vez que el resultado aparece/desaparece
+      window.addEventListener('load', notifyHeight);
+      var obs = new MutationObserver(notifyHeight);
+      obs.observe(document.body, { childList: true, subtree: true, attributes: true });
+    })();
+  </script>
+
+</body>
+</html>
