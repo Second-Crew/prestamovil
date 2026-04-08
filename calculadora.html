@@ -7,40 +7,241 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
   <style>
-    /* Widget-only overrides: sin nav, sin hero, fondo transparente */
-    *, *::before, *::after { box-sizing: border-box; }
+    /* ── Design tokens (subset de styles.css) ─────────────────────────── */
+    :root {
+      --navy:           #1A365D;
+      --gold:           #F6AD55;
+      --green-cta:      #48BB78;
+      --green-cta-hover:#38A169;
+      --white:          #FFFFFF;
+      --gray-100:       #F7FAFC;
+      --gray-200:       #EDF2F7;
+      --gray-300:       #E2E8F0;
+      --gray-400:       #CBD5E0;
+      --gray-500:       #A0AEC0;
+      --gray-600:       #718096;
+      --gray-700:       #4A5568;
+      --font-heading:   'Poppins', sans-serif;
+      --font-body:      'Inter', sans-serif;
+      --radius-lg:      0.75rem;
+      --radius-xl:      1rem;
+      --shadow-lg:      0 10px 40px rgba(0,0,0,0.12);
+    }
+
+    /* ── Reset ────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
-      margin: 0;
-      padding: 0;
       background: transparent;
-      font-family: var(--font-body, 'Inter', sans-serif);
+      font-family: var(--font-body);
+      font-size: 16px;
+      color: var(--navy);
+      /* Sin scroll: el iframe se ajusta al contenido via postMessage */
+      overflow: hidden;
     }
 
-    /* El card de la calculadora ocupa todo el ancho disponible */
+    /* ── Wrapper ─────────────────────────────────────────────────────── */
+    .widget {
+      padding: 1rem;           /* pequeño margen para que la sombra no se corte */
+    }
+
+    /* ── Card de la calculadora ──────────────────────────────────────── */
     .calculator {
-      width: 100%;
-      max-width: 100%;
-      margin: 0;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      padding: 2rem;
     }
 
-    /* Notifica al padre del iframe cuando cambia el tamaño */
-    body { overflow: hidden; }
+    .calculator__title {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+
+    .calculator__subtitle {
+      font-size: 0.875rem;
+      color: var(--gray-600);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Formulario ──────────────────────────────────────────────────── */
+    .calculator__form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 540px) {
+      .calculator__form { grid-template-columns: 1fr; }
+    }
+
+    /* Botón y grupos que deben ocupar todo el ancho */
+    .form-group--full,
+    #version-group,
+    #calc-maquinaria-msg,
+    .btn--full { grid-column: 1 / -1; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-group select {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border: 1.5px solid var(--gray-300);
+      border-radius: var(--radius-lg);
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      color: var(--navy);
+      background: var(--white);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231A365D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      cursor: pointer;
+      transition: border-color .2s;
+    }
+
+    .form-group select:disabled {
+      background-color: var(--gray-100);
+      color: var(--gray-400);
+      cursor: not-allowed;
+    }
+
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--navy);
+    }
+
+    /* ── Botón principal ─────────────────────────────────────────────── */
+    .btn--primary {
+      display: block;
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--green-cta);
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius-lg);
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+
+    .btn--primary:hover  { background: var(--green-cta-hover); }
+    .btn--primary:active { transform: scale(0.98); }
+
+    .btn--primary.shake {
+      animation: shake .4s;
+    }
+
+    @keyframes shake {
+      0%,100%{ transform:translateX(0) }
+      20%    { transform:translateX(-6px) }
+      40%    { transform:translateX(6px) }
+      60%    { transform:translateX(-4px) }
+      80%    { transform:translateX(4px) }
+    }
+
+    /* ── Botón WhatsApp ──────────────────────────────────────────────── */
+    .btn--whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem;
+      background: #25D366;
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      transition: background .2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn--whatsapp:hover { background: #1ebe5d; }
+
+    /* ── Maquinaria msg ──────────────────────────────────────────────── */
+    #calc-maquinaria-msg {
+      display: none;
+      padding: 1rem 1.25rem;
+      background: #f0f4ff;
+      border-radius: var(--radius-lg);
+      text-align: center;
+    }
+
+    #calc-maquinaria-msg p { color: var(--gray-700); font-size: 0.875rem; line-height: 1.5; }
+    #calc-maquinaria-msg p:first-child { font-weight: 700; color: var(--navy); margin-bottom: 0.25rem; }
+
+    /* ── Resultado ───────────────────────────────────────────────────── */
+    .calculator__result {
+      display: none;
+      margin-top: 1.25rem;
+      padding: 1.25rem;
+      background: var(--navy);
+      border-radius: var(--radius-lg);
+      text-align: center;
+    }
+
+    .calculator__result.visible { display: block; }
+
+    .calculator__result-label {
+      font-size: 0.8125rem;
+      color: var(--gray-300);
+      margin-bottom: 0.25rem;
+    }
+
+    .calculator__result-amount {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .calculator__result-detail {
+      font-size: 0.8125rem;
+      color: var(--gray-300);
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+    .calculator__result-cta {
+      display: inline-flex;
+    }
+
+    /* ── Disclaimer ──────────────────────────────────────────────────── */
+    .calculator__disclaimer {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      text-align: center;
+      margin-top: 0.75rem;
+    }
   </style>
 </head>
 <body>
-
-  <!-- ═══ CALCULADORA (widget standalone) ═══ -->
+<div class="widget">
   <div class="calculator">
     <h2 class="calculator__title">¿Cuánto te prestamos?</h2>
     <p class="calculator__subtitle">Calcula el valor estimado de tu vehículo</p>
 
     <form class="calculator__form" autocomplete="off">
 
-      <div class="form-group">
+      <div class="form-group form-group--full">
         <label for="calc-type">Tipo de vehículo</label>
         <select id="calc-type">
           <option value="">Selecciona tipo</option>
@@ -65,7 +266,7 @@
         </select>
       </div>
 
-      <div class="form-group">
+      <div class="form-group form-group--full">
         <label for="calc-model">Modelo</label>
         <select id="calc-model" disabled>
           <option value="">Selecciona modelo</option>
@@ -79,42 +280,38 @@
         </select>
       </div>
 
-      <!-- Maquinaria pesada: sin API Libro Azul -->
-      <div id="calc-maquinaria-msg" style="display:none; padding:1rem 1.25rem; background:#f0f4ff; border-radius:10px; text-align:center; margin-bottom:0.5rem;">
-        <p style="margin:0 0 0.25rem; color:#1e3a5f; font-weight:700;">🚜 Maquinaria Pesada</p>
-        <p style="margin:0 0 1rem; color:#4a5568; font-size:0.88rem; line-height:1.4;">Valuamos retroexcavadoras, tractores, minicargadores y más.<br>Contáctanos para una cotización personalizada y sin costo.</p>
-        <a href="https://wa.me/526681234567?text=%C2%A1Hola%20Prestam%C3%B3vil!%20Me%20interesa%20empe%C3%B1ar%20maquinaria%20pesada.%20%C2%BFPueden%20hacer%20una%20valuaci%C3%B3n%3F"
-           class="btn btn--whatsapp" target="_blank" rel="noopener"
-           style="display:inline-block;">💬 Contactar por WhatsApp</a>
+      <div id="calc-maquinaria-msg">
+        <p>🚜 Maquinaria Pesada</p>
+        <p>Valuamos retroexcavadoras, tractores, minicargadores y más.<br>Contáctanos para una cotización sin costo.</p>
+        <br>
+        <a href="https://wa.me/526681234567?text=%C2%A1Hola%20Prestam%C3%B3vil!%20Me%20interesa%20empe%C3%B1ar%20maquinaria%20pesada."
+           class="btn btn--whatsapp" target="_blank" rel="noopener">💬 Contactar por WhatsApp</a>
       </div>
 
-      <button type="button" id="calc-btn" class="btn btn--primary btn--full">Calcular valor</button>
+      <button type="button" id="calc-btn" class="btn--primary btn--full">Calcular valor</button>
     </form>
 
     <div class="calculator__result">
       <p class="calculator__result-label">Monto estimado de préstamo:</p>
       <p class="calculator__result-amount"></p>
       <p class="calculator__result-detail"></p>
-      <a href="#" class="calculator__result-cta btn btn--whatsapp" target="_blank" rel="noopener">💬 Agendar Valuación por WhatsApp</a>
+      <a href="#" class="calculator__result-cta btn--whatsapp" target="_blank" rel="noopener">💬 Agendar Valuación por WhatsApp</a>
     </div>
     <p class="calculator__disclaimer">*Valor estimado. El monto final se determina en la valuación presencial.</p>
   </div>
+</div>
 
   <script src="js/calculator.js"></script>
 
-  <!-- Avisa al padre del iframe cada vez que el contenido crece/achica -->
+  <!-- Notifica al iframe padre cuando el contenido cambia de altura -->
   <script>
     (function () {
       function notifyHeight() {
-        var h = document.body.scrollHeight;
-        window.parent.postMessage({ type: 'calcHeight', height: h }, '*');
+        window.parent.postMessage({ type: 'calcHeight', height: document.body.scrollHeight }, '*');
       }
-      // Al cargar y cada vez que el resultado aparece/desaparece
       window.addEventListener('load', notifyHeight);
-      var obs = new MutationObserver(notifyHeight);
-      obs.observe(document.body, { childList: true, subtree: true, attributes: true });
+      new MutationObserver(notifyHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
     })();
   </script>
-
 </body>
 </html>
