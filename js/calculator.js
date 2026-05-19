@@ -41,6 +41,7 @@
   var selBrand     = document.getElementById('calc-brand');
   var selModel     = document.getElementById('calc-model');
   var selVersion   = document.getElementById('calc-version');
+  var inpMileage   = document.getElementById('calc-mileage');
   var grpVersion   = document.getElementById('version-group');
   var maqMsg       = document.getElementById('calc-maquinaria-msg');
   var btnCalc      = document.getElementById('calc-btn');
@@ -106,6 +107,12 @@
     });
   }
 
+  /** Normaliza kilometraje a enteros para la API Libro Azul */
+  function getMileage() {
+    if (!inpMileage) return '';
+    return String(inpMileage.value || '').replace(/[^\d]/g, '');
+  }
+
   /** Llena un <select> con un array [{ clave, nombre }] y lo habilita */
   function fillSel(sel, items, placeholder) {
     resetSel(sel, placeholder);
@@ -148,6 +155,10 @@
       .then(function (items) { fillSel(selYear, items, 'Selecciona año'); })
       .catch(function ()     { resetSel(selYear, '⚠️ Error — intenta de nuevo'); });
   });
+
+  if (inpMileage) {
+    inpMileage.addEventListener('input', hideResult);
+  }
 
   // 2 ── Año seleccionado → cargar Marcas
   selYear.addEventListener('change', function () {
@@ -215,10 +226,12 @@
     var tipo     = selType.value;
     var isMoto   = tipo === 'motocicleta';
     var needVer  = !isMoto && grpVersion.style.display !== 'none';
+    var mileage  = getMileage();
 
     // Validar que todos los campos necesarios estén llenos
     var falta = !tipo || !selYear.value || !selBrand.value || !selModel.value
-             || (needVer && !selVersion.value);
+             || (needVer && !selVersion.value)
+             || !mileage;
 
     if (falta) {
       btnCalc.classList.add('shake');
@@ -232,8 +245,8 @@
     btnCalc.disabled    = true;
 
     var params = isMoto
-      ? { action: 'price-moto', model:   selModel.value }
-      : { action: 'price',      clase: '0', version: selVersion.value };
+      ? { action: 'price-moto', model: selModel.value, Kilometraje: mileage }
+      : { action: 'price', clase: '0', version: selVersion.value, Kilometraje: mileage };
 
     apiFetch(params)
       .then(function (data) {
@@ -255,6 +268,7 @@
           ? selVersion.options[selVersion.selectedIndex].text : '';
         var vehiculo = [selYear.value, marcaNombre, modeloNombre, versionNombre]
           .filter(Boolean).join(' ');
+        var kmTexto = new Intl.NumberFormat('es-MX').format(parseInt(mileage, 10)) + ' km';
 
         // ── Mostrar resultado ───────────────────────────────────────────────
         resultAmt.textContent = fmt(montoPrestamo);
@@ -265,6 +279,7 @@
         // Mensaje preescrito para WhatsApp
         var waMsg = encodeURIComponent(
           '¡Hola Prestamóvil! Me interesa empeñar mi ' + vehiculo + '. ' +
+          'Tiene ' + kmTexto + '. ' +
           'La calculadora indica un valor Libro Azul de ' + fmt(valorMercado) + '. ' +
           '¿Podemos agendar una valuación?'
         );
