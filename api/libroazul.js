@@ -149,6 +149,7 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const { action, clase = '0', year, brand, model, version } = req.query;
+  const mileage = req.query.Kilometraje || req.query.mileage;
 
   if (action === 'config') {
     return res.json({ loanPercentage: parseFloat(process.env.LOAN_PERCENTAGE || '0.70') });
@@ -201,7 +202,15 @@ module.exports = async function handler(req, res) {
       // ── Precio auto (REST con ClaveVersion real) ───────────────────────────
       case 'price': {
         if (!version) return res.status(400).json({ error: 'Falta: version' });
-        const raw = await restPost('/Api/Precio/', { Llave: llave, Clase: clase, ClaveVersion: version, Edicion: '0' });
+        const kilometraje = String(mileage || '').replace(/[^\d]/g, '');
+        if (!kilometraje) return res.status(400).json({ error: 'Falta: Kilometraje' });
+        const raw = await restPost('/Api/Precio/', {
+          Llave: llave,
+          Clase: clase,
+          ClaveVersion: version,
+          Kilometraje: kilometraje,
+          Edicion: '0',
+        });
         return res.json(parsePrecioREST(raw));
       }
 
